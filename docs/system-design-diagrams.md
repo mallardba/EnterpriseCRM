@@ -455,7 +455,7 @@ graph LR
 ## 📈 Performance Architecture
 
 ```mermaid
-graph TB
+graph TD
     subgraph "Caching Strategy"
         L1[L1 Cache - In-Memory]
         L2[L2 Cache - Redis]

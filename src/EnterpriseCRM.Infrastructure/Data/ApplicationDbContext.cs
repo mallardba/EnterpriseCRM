@@ -1,6 +1,7 @@
 using EnterpriseCRM.Core.Entities;
 using EnterpriseCRM.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace EnterpriseCRM.Infrastructure.Data;
 
@@ -17,7 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Contact> Contacts { get; set; }
     public DbSet<Lead> Leads { get; set; }
     public DbSet<Opportunity> Opportunities { get; set; }
-    public DbSet<Task> Tasks { get; set; }
+    public DbSet<EnterpriseCRM.Core.Entities.Task> Tasks { get; set; }
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -86,6 +87,11 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.CreatedBy).IsRequired().HasMaxLength(100);
             entity.Property(e => e.UpdatedBy).HasMaxLength(100);
             
+            // Configure decimal precision for EstimatedValue
+            entity.Property(e => e.EstimatedValue)
+                  .HasColumnType("decimal(18,2)")
+                  .HasPrecision(18, 2);
+            
             entity.HasOne(e => e.AssignedToUser)
                   .WithMany(u => u.AssignedLeads)
                   .HasForeignKey(e => e.AssignedToUserId)
@@ -113,10 +119,22 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.CreatedBy).IsRequired().HasMaxLength(100);
             entity.Property(e => e.UpdatedBy).HasMaxLength(100);
             
+            // Configure decimal precision for Amount and Probability
+            entity.Property(e => e.Amount)
+                  .HasColumnType("decimal(18,2)")
+                  .HasPrecision(18, 2);
+            
+            entity.Property(e => e.Probability)
+                  .HasColumnType("decimal(5,2)")
+                  .HasPrecision(5, 2);
+            
+            // Make CustomerId nullable to support SET NULL
+            entity.Property(e => e.CustomerId).IsRequired(false);
+            
             entity.HasOne(e => e.Customer)
                   .WithMany(c => c.Opportunities)
                   .HasForeignKey(e => e.CustomerId)
-                  .OnDelete(DeleteBehavior.Cascade);
+                  .OnDelete(DeleteBehavior.SetNull);
             
             entity.HasOne(e => e.AssignedToUser)
                   .WithMany(u => u.AssignedOpportunities)
@@ -130,7 +148,7 @@ public class ApplicationDbContext : DbContext
         });
 
         // Configure Task entity
-        modelBuilder.Entity<Task>(entity =>
+        modelBuilder.Entity<EnterpriseCRM.Core.Entities.Task>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
@@ -193,8 +211,13 @@ public class ApplicationDbContext : DbContext
         {
             if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
             {
+                var parameter = Expression.Parameter(entityType.ClrType, "e");
+                var property = Expression.Property(parameter, nameof(BaseEntity.IsDeleted));
+                var notExpression = Expression.Not(property);
+                var lambda = Expression.Lambda(notExpression, parameter);
+                
                 modelBuilder.Entity(entityType.ClrType)
-                    .HasQueryFilter(e => !((BaseEntity)e).IsDeleted);
+                    .HasQueryFilter(lambda);
             }
         }
     }

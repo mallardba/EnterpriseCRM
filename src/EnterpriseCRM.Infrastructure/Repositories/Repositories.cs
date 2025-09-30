@@ -20,17 +20,17 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         _dbSet = context.Set<T>();
     }
 
-    public virtual async Task<T?> GetByIdAsync(int id)
+    public virtual async System.Threading.Tasks.Task<T?> GetByIdAsync(int id)
     {
         return await _dbSet.FindAsync(id);
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    public virtual async System.Threading.Tasks.Task<IEnumerable<T>> GetAllAsync()
     {
         return await _dbSet.ToListAsync();
     }
 
-    public virtual async Task<IEnumerable<T>> GetPagedAsync(int pageNumber, int pageSize)
+    public virtual async System.Threading.Tasks.Task<IEnumerable<T>> GetPagedAsync(int pageNumber, int pageSize)
     {
         return await _dbSet
             .Skip((pageNumber - 1) * pageSize)
@@ -38,19 +38,19 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
             .ToListAsync();
     }
 
-    public virtual async Task<T> AddAsync(T entity)
+    public virtual async System.Threading.Tasks.Task<T> AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
         return entity;
     }
 
-    public virtual Task UpdateAsync(T entity)
+    public virtual System.Threading.Tasks.Task UpdateAsync(T entity)
     {
         _dbSet.Update(entity);
-        return Task.CompletedTask;
+        return System.Threading.Tasks.Task.CompletedTask;
     }
 
-    public virtual async Task DeleteAsync(int id)
+    public virtual async System.Threading.Tasks.Task DeleteAsync(int id)
     {
         var entity = await GetByIdAsync(id);
         if (entity != null)
@@ -61,12 +61,12 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         }
     }
 
-    public virtual async Task<bool> ExistsAsync(int id)
+    public virtual async System.Threading.Tasks.Task<bool> ExistsAsync(int id)
     {
         return await _dbSet.AnyAsync(e => e.Id == id);
     }
 
-    public virtual async Task<int> CountAsync()
+    public virtual async System.Threading.Tasks.Task<int> CountAsync()
     {
         return await _dbSet.CountAsync();
     }
@@ -254,61 +254,61 @@ public class OpportunityRepository : Repository<Opportunity>, IOpportunityReposi
 /// <summary>
 /// Task repository implementation
 /// </summary>
-public class TaskRepository : Repository<Task>, ITaskRepository
+public class TaskRepository : Repository<EnterpriseCRM.Core.Entities.Task>, ITaskRepository
 {
     public TaskRepository(ApplicationDbContext context) : base(context)
     {
     }
 
-    public async Task<IEnumerable<Task>> GetByAssignedUserAsync(int userId)
+    public async System.Threading.Tasks.Task<IEnumerable<EnterpriseCRM.Core.Entities.Task>> GetByAssignedUserAsync(int userId)
     {
         return await _dbSet
             .Where(t => t.AssignedToUserId == userId)
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Task>> GetByStatusAsync(TaskStatus status)
+    public async System.Threading.Tasks.Task<IEnumerable<EnterpriseCRM.Core.Entities.Task>> GetByStatusAsync(EnterpriseCRM.Core.Entities.TaskStatus status)
     {
         return await _dbSet
             .Where(t => t.Status == status)
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Task>> GetOverdueAsync()
+    public async System.Threading.Tasks.Task<IEnumerable<EnterpriseCRM.Core.Entities.Task>> GetOverdueAsync()
     {
         var today = DateTime.Today;
         return await _dbSet
             .Where(t => t.DueDate.HasValue && 
                        t.DueDate.Value.Date < today && 
-                       t.Status != TaskStatus.Completed)
+                       t.Status != EnterpriseCRM.Core.Entities.TaskStatus.Completed)
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Task>> GetDueTodayAsync()
+    public async System.Threading.Tasks.Task<IEnumerable<EnterpriseCRM.Core.Entities.Task>> GetDueTodayAsync()
     {
         var today = DateTime.Today;
         return await _dbSet
             .Where(t => t.DueDate.HasValue && 
                        t.DueDate.Value.Date == today && 
-                       t.Status != TaskStatus.Completed)
+                       t.Status != EnterpriseCRM.Core.Entities.TaskStatus.Completed)
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Task>> GetByCustomerIdAsync(int customerId)
+    public async System.Threading.Tasks.Task<IEnumerable<EnterpriseCRM.Core.Entities.Task>> GetByCustomerIdAsync(int customerId)
     {
         return await _dbSet
             .Where(t => t.CustomerId == customerId)
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Task>> GetByLeadIdAsync(int leadId)
+    public async System.Threading.Tasks.Task<IEnumerable<EnterpriseCRM.Core.Entities.Task>> GetByLeadIdAsync(int leadId)
     {
         return await _dbSet
             .Where(t => t.LeadId == leadId)
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Task>> GetByOpportunityIdAsync(int opportunityId)
+    public async System.Threading.Tasks.Task<IEnumerable<EnterpriseCRM.Core.Entities.Task>> GetByOpportunityIdAsync(int opportunityId)
     {
         return await _dbSet
             .Where(t => t.OpportunityId == opportunityId)

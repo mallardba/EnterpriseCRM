@@ -180,8 +180,7 @@ public class Lead : BaseEntity
 /// </summary>
 public class Opportunity : BaseEntity
 {
-    [Required]
-    public int CustomerId { get; set; }
+    public int? CustomerId { get; set; }
     
     [Required]
     [MaxLength(200)]

@@ -154,7 +154,7 @@ public class TaskDto
     public string? Description { get; set; }
     public TaskType Type { get; set; }
     public TaskPriority Priority { get; set; }
-    public TaskStatus Status { get; set; }
+    public EnterpriseCRM.Core.Entities.TaskStatus Status { get; set; }
     public DateTime? DueDate { get; set; }
     public DateTime? CompletedDate { get; set; }
     public int AssignedToUserId { get; set; }

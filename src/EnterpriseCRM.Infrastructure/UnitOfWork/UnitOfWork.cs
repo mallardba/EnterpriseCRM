@@ -27,21 +27,21 @@ public class UnitOfWork : IUnitOfWork
     public ICustomerRepository Customers { get; }
     public IContactRepository Contacts { get; }
     public ILeadRepository Leads { get; }
-    IOpportunityRepository Opportunities { get; }
+    public IOpportunityRepository Opportunities { get; }
     public ITaskRepository Tasks { get; }
     public IUserRepository Users { get; }
 
-    public async Task<int> SaveChangesAsync()
+    public async System.Threading.Tasks.Task<int> SaveChangesAsync()
     {
         return await _context.SaveChangesAsync();
     }
 
-    public async Task BeginTransactionAsync()
+    public async System.Threading.Tasks.Task BeginTransactionAsync()
     {
         _transaction = await _context.Database.BeginTransactionAsync();
     }
 
-    public async Task CommitTransactionAsync()
+    public async System.Threading.Tasks.Task CommitTransactionAsync()
     {
         if (_transaction != null)
         {
@@ -51,7 +51,7 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public async Task RollbackTransactionAsync()
+    public async System.Threading.Tasks.Task RollbackTransactionAsync()
     {
         if (_transaction != null)
         {

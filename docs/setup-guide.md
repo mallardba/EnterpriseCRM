@@ -126,21 +126,18 @@ Before you begin, ensure you have the following installed:
    }
    ```
 
-### Step 3: Run Entity Framework Migrations
+### Step 3: Install Entity Framework Tools (Optional)
 
-1. **Navigate to the Infrastructure project:**
+> **Note:** EF Core tools are only needed for future schema changes. The initial database setup is complete with the SQL script.
+
+1. **Install EF Core tools globally:**
    ```bash
-   cd src/EnterpriseCRM.Infrastructure
+   dotnet tool install --global dotnet-ef
    ```
 
-2. **Create initial migration:**
+2. **Verify installation:**
    ```bash
-   dotnet ef migrations add InitialCreate --startup-project ../EnterpriseCRM.WebAPI
-   ```
-
-3. **Update the database:**
-   ```bash
-   dotnet ef database update --startup-project ../EnterpriseCRM.WebAPI
+   dotnet ef --version
    ```
 
 ### Step 4: Run the Application
@@ -150,14 +147,14 @@ Before you begin, ensure you have the following installed:
    cd src/EnterpriseCRM.WebAPI
    dotnet run
    ```
-   The API will be available at: `https://localhost:7001`
+   The API will be available at: `https://localhost:5001`
 
 2. **Start the Blazor Server application:**
    ```bash
    cd src/EnterpriseCRM.BlazorServer
    dotnet run
    ```
-   The web application will be available at: `https://localhost:7002`
+   The web application will be available at: `https://localhost:5002`
 
 ### Step 5: Run Tests
 
@@ -171,6 +168,43 @@ Before you begin, ensure you have the following installed:
    ```bash
    cd tests/EnterpriseCRM.IntegrationTests
    dotnet test
+   ```
+
+## 🔄 Database Management
+
+### **Initial Setup vs Future Changes**
+
+- **Initial Setup:** Use the SQL script (`scripts/database-setup.sql`) for complete database creation
+- **Future Changes:** Use EF Core migrations for schema updates
+
+### **When to Use Each Approach**
+
+#### **SQL Script (Initial Setup)**
+- ✅ Complete database creation
+- ✅ Includes all tables, stored procedures, indexes
+- ✅ Pre-loaded with sample data
+- ✅ Guaranteed to work
+- ✅ No migration complexity
+
+#### **EF Migrations (Future Changes)**
+- ✅ Version control for schema changes
+- ✅ Team collaboration
+- ✅ Rollback capabilities
+- ✅ Automated deployment
+
+### **Future Schema Changes**
+
+When you need to modify the database schema:
+
+1. **Update entity classes** in `src/EnterpriseCRM.Core/Entities.cs`
+2. **Create a migration:**
+   ```bash
+   cd src/EnterpriseCRM.Infrastructure
+   dotnet ef migrations add YourChangeName --startup-project ../EnterpriseCRM.WebAPI
+   ```
+3. **Apply the migration:**
+   ```bash
+   dotnet ef database update --startup-project ../EnterpriseCRM.WebAPI
    ```
 
 ## 🔧 Configuration
@@ -241,7 +275,7 @@ dotnet test tests/EnterpriseCRM.UnitTests
 
 ### Swagger Documentation
 Once the Web API is running, visit:
-- Swagger UI: `https://localhost:7001/swagger`
+- Swagger UI: `https://localhost:5001/swagger`
 
 ### Key API Endpoints
 

@@ -8,16 +8,16 @@ namespace EnterpriseCRM.Application.Interfaces;
 /// </summary>
 public interface ICustomerService
 {
-    Task<CustomerDto?> GetByIdAsync(int id);
-    Task<PagedResultDto<CustomerDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
-    Task<PagedResultDto<CustomerDto>> SearchAsync(string searchTerm, int pageNumber = 1, int pageSize = 10);
-    Task<CustomerDto> CreateAsync(CreateCustomerDto createDto, string currentUser);
-    Task<CustomerDto> UpdateAsync(UpdateCustomerDto updateDto, string currentUser);
-    Task DeleteAsync(int id);
-    Task<IEnumerable<CustomerDto>> GetByStatusAsync(CustomerStatus status);
-    Task<IEnumerable<CustomerDto>> GetByTypeAsync(CustomerType type);
-    Task<CustomerDto?> GetByEmailAsync(string email);
-    Task<IEnumerable<CustomerDto>> GetRecentAsync(int count);
+    System.Threading.Tasks.Task<CustomerDto?> GetByIdAsync(int id);
+    System.Threading.Tasks.Task<PagedResultDto<CustomerDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+    System.Threading.Tasks.Task<PagedResultDto<CustomerDto>> SearchAsync(string searchTerm, int pageNumber = 1, int pageSize = 10);
+    System.Threading.Tasks.Task<CustomerDto> CreateAsync(CreateCustomerDto createDto, string currentUser);
+    System.Threading.Tasks.Task<CustomerDto> UpdateAsync(UpdateCustomerDto updateDto, string currentUser);
+    System.Threading.Tasks.Task DeleteAsync(int id);
+    System.Threading.Tasks.Task<IEnumerable<CustomerDto>> GetByStatusAsync(CustomerStatus status);
+    System.Threading.Tasks.Task<IEnumerable<CustomerDto>> GetByTypeAsync(CustomerType type);
+    System.Threading.Tasks.Task<CustomerDto?> GetByEmailAsync(string email);
+    System.Threading.Tasks.Task<IEnumerable<CustomerDto>> GetRecentAsync(int count);
 }
 
 /// <summary>
@@ -25,13 +25,13 @@ public interface ICustomerService
 /// </summary>
 public interface IContactService
 {
-    Task<ContactDto?> GetByIdAsync(int id);
-    Task<IEnumerable<ContactDto>> GetByCustomerIdAsync(int customerId);
-    Task<ContactDto?> GetPrimaryContactAsync(int customerId);
-    Task<ContactDto> CreateAsync(CreateContactDto createDto, string currentUser);
-    Task<ContactDto> UpdateAsync(UpdateContactDto updateDto, string currentUser);
-    Task DeleteAsync(int id);
-    Task<IEnumerable<ContactDto>> GetByRoleAsync(ContactRole role);
+    System.Threading.Tasks.Task<ContactDto?> GetByIdAsync(int id);
+    System.Threading.Tasks.Task<IEnumerable<ContactDto>> GetByCustomerIdAsync(int customerId);
+    System.Threading.Tasks.Task<ContactDto?> GetPrimaryContactAsync(int customerId);
+    System.Threading.Tasks.Task<ContactDto> CreateAsync(CreateContactDto createDto, string currentUser);
+    System.Threading.Tasks.Task<ContactDto> UpdateAsync(UpdateContactDto updateDto, string currentUser);
+    System.Threading.Tasks.Task DeleteAsync(int id);
+    System.Threading.Tasks.Task<IEnumerable<ContactDto>> GetByRoleAsync(ContactRole role);
 }
 
 /// <summary>
@@ -39,17 +39,17 @@ public interface IContactService
 /// </summary>
 public interface ILeadService
 {
-    Task<LeadDto?> GetByIdAsync(int id);
-    Task<PagedResultDto<LeadDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
-    Task<PagedResultDto<LeadDto>> SearchAsync(string searchTerm, int pageNumber = 1, int pageSize = 10);
-    Task<LeadDto> CreateAsync(CreateLeadDto createDto, string currentUser);
-    Task<LeadDto> UpdateAsync(UpdateLeadDto updateDto, string currentUser);
-    Task DeleteAsync(int id);
-    Task<IEnumerable<LeadDto>> GetByStatusAsync(LeadStatus status);
-    Task<IEnumerable<LeadDto>> GetBySourceAsync(LeadSource source);
-    Task<IEnumerable<LeadDto>> GetByAssignedUserAsync(int userId);
-    Task<IEnumerable<LeadDto>> GetRecentAsync(int count);
-    Task<LeadDto> ConvertToCustomerAsync(int leadId, string currentUser);
+    System.Threading.Tasks.Task<LeadDto?> GetByIdAsync(int id);
+    System.Threading.Tasks.Task<PagedResultDto<LeadDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+    System.Threading.Tasks.Task<PagedResultDto<LeadDto>> SearchAsync(string searchTerm, int pageNumber = 1, int pageSize = 10);
+    System.Threading.Tasks.Task<LeadDto> CreateAsync(CreateLeadDto createDto, string currentUser);
+    System.Threading.Tasks.Task<LeadDto> UpdateAsync(UpdateLeadDto updateDto, string currentUser);
+    System.Threading.Tasks.Task DeleteAsync(int id);
+    System.Threading.Tasks.Task<IEnumerable<LeadDto>> GetByStatusAsync(LeadStatus status);
+    System.Threading.Tasks.Task<IEnumerable<LeadDto>> GetBySourceAsync(LeadSource source);
+    System.Threading.Tasks.Task<IEnumerable<LeadDto>> GetByAssignedUserAsync(int userId);
+    System.Threading.Tasks.Task<IEnumerable<LeadDto>> GetRecentAsync(int count);
+    System.Threading.Tasks.Task<LeadDto> ConvertToCustomerAsync(int leadId, string currentUser);
 }
 
 /// <summary>
@@ -57,18 +57,18 @@ public interface ILeadService
 /// </summary>
 public interface IOpportunityService
 {
-    Task<OpportunityDto?> GetByIdAsync(int id);
-    Task<PagedResultDto<OpportunityDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
-    Task<OpportunityDto> CreateAsync(CreateOpportunityDto createDto, string currentUser);
-    Task<OpportunityDto> UpdateAsync(UpdateOpportunityDto updateDto, string currentUser);
-    Task DeleteAsync(int id);
-    Task<IEnumerable<OpportunityDto>> GetByCustomerIdAsync(int customerId);
-    Task<IEnumerable<OpportunityDto>> GetByStageAsync(OpportunityStage stage);
-    Task<IEnumerable<OpportunityDto>> GetByAssignedUserAsync(int userId);
-    Task<IEnumerable<OpportunityDto>> GetByStatusAsync(OpportunityStatus status);
-    Task<decimal> GetTotalPipelineValueAsync();
-    Task<decimal> GetForecastedRevenueAsync();
-    Task<OpportunityDto> UpdateStageAsync(int opportunityId, OpportunityStage stage, string currentUser);
+    System.Threading.Tasks.Task<OpportunityDto?> GetByIdAsync(int id);
+    System.Threading.Tasks.Task<PagedResultDto<OpportunityDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+    System.Threading.Tasks.Task<OpportunityDto> CreateAsync(CreateOpportunityDto createDto, string currentUser);
+    System.Threading.Tasks.Task<OpportunityDto> UpdateAsync(UpdateOpportunityDto updateDto, string currentUser);
+    System.Threading.Tasks.Task DeleteAsync(int id);
+    System.Threading.Tasks.Task<IEnumerable<OpportunityDto>> GetByCustomerIdAsync(int customerId);
+    System.Threading.Tasks.Task<IEnumerable<OpportunityDto>> GetByStageAsync(OpportunityStage stage);
+    System.Threading.Tasks.Task<IEnumerable<OpportunityDto>> GetByAssignedUserAsync(int userId);
+    System.Threading.Tasks.Task<IEnumerable<OpportunityDto>> GetByStatusAsync(OpportunityStatus status);
+    System.Threading.Tasks.Task<decimal> GetTotalPipelineValueAsync();
+    System.Threading.Tasks.Task<decimal> GetForecastedRevenueAsync();
+    System.Threading.Tasks.Task<OpportunityDto> UpdateStageAsync(int opportunityId, OpportunityStage stage, string currentUser);
 }
 
 /// <summary>
@@ -76,19 +76,19 @@ public interface IOpportunityService
 /// </summary>
 public interface ITaskService
 {
-    Task<TaskDto?> GetByIdAsync(int id);
-    Task<PagedResultDto<TaskDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
-    Task<TaskDto> CreateAsync(CreateTaskDto createDto, string currentUser);
-    Task<TaskDto> UpdateAsync(UpdateTaskDto updateDto, string currentUser);
-    Task DeleteAsync(int id);
-    Task<IEnumerable<TaskDto>> GetByAssignedUserAsync(int userId);
-    Task<IEnumerable<TaskDto>> GetByStatusAsync(TaskStatus status);
-    Task<IEnumerable<TaskDto>> GetOverdueAsync();
-    Task<IEnumerable<TaskDto>> GetDueTodayAsync();
-    Task<IEnumerable<TaskDto>> GetByCustomerIdAsync(int customerId);
-    Task<IEnumerable<TaskDto>> GetByLeadIdAsync(int leadId);
-    Task<IEnumerable<TaskDto>> GetByOpportunityIdAsync(int opportunityId);
-    Task<TaskDto> CompleteTaskAsync(int taskId, string currentUser);
+    System.Threading.Tasks.Task<TaskDto?> GetByIdAsync(int id);
+    System.Threading.Tasks.Task<PagedResultDto<TaskDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+    System.Threading.Tasks.Task<TaskDto> CreateAsync(CreateTaskDto createDto, string currentUser);
+    System.Threading.Tasks.Task<TaskDto> UpdateAsync(UpdateTaskDto updateDto, string currentUser);
+    System.Threading.Tasks.Task DeleteAsync(int id);
+    System.Threading.Tasks.Task<IEnumerable<TaskDto>> GetByAssignedUserAsync(int userId);
+    System.Threading.Tasks.Task<IEnumerable<TaskDto>> GetByStatusAsync(EnterpriseCRM.Core.Entities.TaskStatus status);
+    System.Threading.Tasks.Task<IEnumerable<TaskDto>> GetOverdueAsync();
+    System.Threading.Tasks.Task<IEnumerable<TaskDto>> GetDueTodayAsync();
+    System.Threading.Tasks.Task<IEnumerable<TaskDto>> GetByCustomerIdAsync(int customerId);
+    System.Threading.Tasks.Task<IEnumerable<TaskDto>> GetByLeadIdAsync(int leadId);
+    System.Threading.Tasks.Task<IEnumerable<TaskDto>> GetByOpportunityIdAsync(int opportunityId);
+    System.Threading.Tasks.Task<TaskDto> CompleteTaskAsync(int taskId, string currentUser);
 }
 
 /// <summary>
@@ -96,17 +96,17 @@ public interface ITaskService
 /// </summary>
 public interface IUserService
 {
-    Task<UserDto?> GetByIdAsync(int id);
-    Task<PagedResultDto<UserDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
-    Task<UserDto> CreateAsync(CreateUserDto createDto, string currentUser);
-    Task<UserDto> UpdateAsync(UpdateUserDto updateDto, string currentUser);
-    Task DeleteAsync(int id);
-    Task<UserDto?> GetByEmailAsync(string email);
-    Task<UserDto?> GetByUsernameAsync(string username);
-    Task<IEnumerable<UserDto>> GetByRoleAsync(UserRole role);
-    Task<IEnumerable<UserDto>> GetActiveUsersAsync();
-    Task<bool> ValidateCredentialsAsync(string username, string password);
-    Task<UserDto> ChangePasswordAsync(int userId, string currentPassword, string newPassword, string currentUser);
+    System.Threading.Tasks.Task<UserDto?> GetByIdAsync(int id);
+    System.Threading.Tasks.Task<PagedResultDto<UserDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+    System.Threading.Tasks.Task<UserDto> CreateAsync(CreateUserDto createDto, string currentUser);
+    System.Threading.Tasks.Task<UserDto> UpdateAsync(UpdateUserDto updateDto, string currentUser);
+    System.Threading.Tasks.Task DeleteAsync(int id);
+    System.Threading.Tasks.Task<UserDto?> GetByEmailAsync(string email);
+    System.Threading.Tasks.Task<UserDto?> GetByUsernameAsync(string username);
+    System.Threading.Tasks.Task<IEnumerable<UserDto>> GetByRoleAsync(UserRole role);
+    System.Threading.Tasks.Task<IEnumerable<UserDto>> GetActiveUsersAsync();
+    System.Threading.Tasks.Task<bool> ValidateCredentialsAsync(string username, string password);
+    System.Threading.Tasks.Task<UserDto> ChangePasswordAsync(int userId, string currentPassword, string newPassword, string currentUser);
 }
 
 /// <summary>
@@ -114,14 +114,14 @@ public interface IUserService
 /// </summary>
 public interface IDashboardService
 {
-    Task<DashboardStatsDto> GetDashboardStatsAsync();
-    Task<IEnumerable<CustomerDto>> GetRecentCustomersAsync(int count);
-    Task<IEnumerable<LeadDto>> GetRecentLeadsAsync(int count);
-    Task<IEnumerable<OpportunityDto>> GetRecentOpportunitiesAsync(int count);
-    Task<IEnumerable<TaskDto>> GetUpcomingTasksAsync(int count);
-    Task<IEnumerable<TaskDto>> GetOverdueTasksAsync();
-    Task<Dictionary<string, int>> GetLeadSourceStatsAsync();
-    Task<Dictionary<string, decimal>> GetMonthlyRevenueAsync(int months);
+    System.Threading.Tasks.Task<DashboardStatsDto> GetDashboardStatsAsync();
+    System.Threading.Tasks.Task<IEnumerable<CustomerDto>> GetRecentCustomersAsync(int count);
+    System.Threading.Tasks.Task<IEnumerable<LeadDto>> GetRecentLeadsAsync(int count);
+    System.Threading.Tasks.Task<IEnumerable<OpportunityDto>> GetRecentOpportunitiesAsync(int count);
+    System.Threading.Tasks.Task<IEnumerable<TaskDto>> GetUpcomingTasksAsync(int count);
+    System.Threading.Tasks.Task<IEnumerable<TaskDto>> GetOverdueTasksAsync();
+    System.Threading.Tasks.Task<Dictionary<string, int>> GetLeadSourceStatsAsync();
+    System.Threading.Tasks.Task<Dictionary<string, decimal>> GetMonthlyRevenueAsync(int months);
 }
 
 // Additional DTOs for create/update operations
@@ -228,7 +228,7 @@ public class CreateTaskDto
     public string? Description { get; set; }
     public TaskType Type { get; set; } = TaskType.General;
     public TaskPriority Priority { get; set; } = TaskPriority.Medium;
-    public TaskStatus Status { get; set; } = TaskStatus.Pending;
+    public EnterpriseCRM.Core.Entities.TaskStatus Status { get; set; } = EnterpriseCRM.Core.Entities.TaskStatus.Pending;
     public DateTime? DueDate { get; set; }
     public int AssignedToUserId { get; set; }
     public int? CustomerId { get; set; }
@@ -244,7 +244,7 @@ public class UpdateTaskDto
     public string? Description { get; set; }
     public TaskType Type { get; set; }
     public TaskPriority Priority { get; set; }
-    public TaskStatus Status { get; set; }
+    public EnterpriseCRM.Core.Entities.TaskStatus Status { get; set; }
     public DateTime? DueDate { get; set; }
     public int AssignedToUserId { get; set; }
     public int? CustomerId { get; set; }

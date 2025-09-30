@@ -1,5 +1,24 @@
 # Enterprise CRM - GitHub Workflows
 
+## 🚀 Getting Started with GitHub's Suggested Workflows
+
+GitHub provides excellent workflow templates based on your tech stack. For this .NET Enterprise CRM project, GitHub suggests:
+
+### **✅ Recommended: .NET Workflow**
+- **Perfect for:** ASP.NET Core Web API and Blazor Server applications
+- **Includes:** Build, test, restore dependencies, and basic CI/CD
+- **Benefits:** Quick setup, Microsoft best practices, community tested
+- **Action:** Accept this workflow as your foundation
+
+### **❌ Skip: .NET Desktop Workflow**
+- **Not applicable:** This project builds web applications, not desktop apps
+- **Reason:** Would add unnecessary complexity for web-based CRM system
+
+### **🎯 Recommended Approach:**
+1. **Start with GitHub's .NET workflow** for immediate CI/CD
+2. **Enhance with custom workflows** from this documentation for advanced features
+3. **Add database migrations, security scanning, and multi-environment deployment**
+
 ## 🔄 GitHub Actions Overview
 
 GitHub Actions provides powerful CI/CD capabilities for the Enterprise CRM project. This document covers essential workflows for building, testing, deploying, and maintaining the application.

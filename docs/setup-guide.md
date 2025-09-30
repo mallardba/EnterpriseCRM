@@ -35,26 +35,94 @@ Before you begin, ensure you have the following installed:
 
 ### Step 2: Database Setup
 
-1. **Create the database:**
-   - Open SQL Server Management Studio (SSMS)
-   - Connect to your SQL Server instance
-   - Run the following command to create the database:
+#### **2.1: Connect to SQL Server Management Studio (SSMS)**
+
+1. **Open SSMS** and connect to your SQL Server instance:
+   - **Server Type:** Database Engine
+   - **Server Name:** `localhost\SQLEXPRESS` (for SQL Server Express)
+   - **Authentication:** Windows Authentication
+   - **Database:** (leave blank initially)
+   - **Encryption:** Optional (dev only)
+   - **Trust Certificate:** Yes (dev only)
+   - **Custom Name:** Dev-Only Connection
+
+2. **If you can't connect, check:**
+   - SQL Server service is running (Services → SQL Server (SQLEXPRESS))
+   - TCP/IP is enabled in SQL Server Configuration Manager
+   - Windows Authentication is enabled
+
+#### **2.2: Create the Database**
+
+1. **Once connected to SSMS:**
+   - Right-click **Databases** in Object Explorer
+   - Select **New Database**
+   - **Database name:** `EnterpriseCRM`
+   - Click **OK**
+
+2. **Alternative method using SQL in SSMS:**
+   - Click "New Query", type the command, click "Execute", and refresh the database
    ```sql
    CREATE DATABASE EnterpriseCRM;
    ```
 
-2. **Run the database setup script:**
-   - Open the file `scripts/database-setup.sql`
-   - Execute the script in SSMS to create tables, stored procedures, and sample data
+#### **2.3: Run the Database Setup Script**
 
-3. **Update connection string:**
-   - Open `src/EnterpriseCRM.WebAPI/appsettings.json`
-   - Update the `DefaultConnection` string to match your SQL Server instance:
+1. **Open the setup script:**
+   - Open `scripts/database-setup.sql` in SSMS
+
+2. **Execute the script:**
+   - Select the `EnterpriseCRM` database in the dropdown (may need to restart SSMS first)
+   - Click **Execute** or press F5
+   - This creates tables, stored procedures, and sample data
+
+#### **2.4: Update Connection String**
+
+1. **Open the configuration file:**
+   - Navigate to `src/EnterpriseCRM.WebAPI/appsettings.json`
+
+2. **Update the connection string:**
    ```json
    {
      "ConnectionStrings": {
-       "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=EnterpriseCRM;Trusted_Connection=true;MultipleActiveResultSets=true"
-     }
+       "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=EnterpriseCRM;Trusted_Connection=true;TrustServerCertificate=true; // DEV ONLY - DO NOT USE IN PRODUCTION"
+     },
+     "Environment": "Development",
+     "IsDevelopment": true
+   }
+   ```
+
+   ### ⚠️ Development Configuration Only
+   The connection string above is for **local development only**. 
+   Do not use these settings in production environments.
+
+   **Production settings should use:**
+   - Encrypted connections (`Encrypt=true`)
+   - Proper authentication (User Id/Password)
+   - Production server names
+   - No TrustServerCertificate
+   - Production database names
+
+3. **Environment-specific configurations:**
+   
+   **Development (`appsettings.json`):**
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=EnterpriseCRM;Trusted_Connection=true;TrustServerCertificate=true;"
+     },
+     "Environment": "Development",
+     "IsDevelopment": true
+   }
+   ```
+   
+   **Production (`appsettings.Production.json`):**
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=prod-server;Database=EnterpriseCRM;User Id=appuser;Password=securepassword;Encrypt=true;"
+     },
+     "Environment": "Production",
+     "IsDevelopment": false
    }
    ```
 

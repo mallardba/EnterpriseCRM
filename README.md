@@ -54,7 +54,7 @@ EnterpriseCRM/
 
 ## 🛠️ Getting Started
 
-> **📖 For detailed setup instructions, see the [Setup Guide](docs/SETUP_GUIDE.md)**
+> **📖 For detailed setup instructions, see the [Setup Guide](docs/setup-guide.md)**
 
 ### Quick Start
 

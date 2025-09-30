@@ -25,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\EnterpriseCRM.Core\EnterpriseCRM.Core.csproj" />
-    <ProjectReference Include="..\src\EnterpriseCRM.Application\EnterpriseCRM.Application.csproj" />
-    <ProjectReference Include="..\src\EnterpriseCRM.Infrastructure\EnterpriseCRM.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseCRM.Core\EnterpriseCRM.Core.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseCRM.Application\EnterpriseCRM.Application.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseCRM.Infrastructure\EnterpriseCRM.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

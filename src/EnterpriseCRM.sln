@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -15,6 +15,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnterpriseCRM.BlazorServer", "EnterpriseCRM.BlazorServer\EnterpriseCRM.BlazorServer.csproj", "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC948}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnterpriseCRM.UnitTests", "..\tests\EnterpriseCRM.UnitTests\EnterpriseCRM.UnitTests.csproj", "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC950}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnterpriseCRM.IntegrationTests", "..\tests\EnterpriseCRM.IntegrationTests\EnterpriseCRM.IntegrationTests.csproj", "{26FD67F0-6B59-41E7-AC2E-781E4A8433E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC950}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC950}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC950}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26FD67F0-6B59-41E7-AC2E-781E4A8433E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26FD67F0-6B59-41E7-AC2E-781E4A8433E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26FD67F0-6B59-41E7-AC2E-781E4A8433E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26FD67F0-6B59-41E7-AC2E-781E4A8433E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

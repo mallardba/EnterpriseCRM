@@ -1,0 +1,48 @@
+{
+  "leads": [
+    {
+      "firstName": "Alice",
+      "lastName": "Brown",
+      "companyName": "StartupXYZ",
+      "email": "alice.brown@startupxyz.com",
+      "phone": "555-0201",
+      "source": "Website",
+      "status": 0,
+      "score": 85,
+      "notes": "High-value prospect from website"
+    },
+    {
+      "firstName": "Bob",
+      "lastName": "Davis",
+      "companyName": "Innovation Labs",
+      "email": "bob.davis@innovationlabs.com",
+      "phone": "555-0202",
+      "source": "Referral",
+      "status": 1,
+      "score": 92,
+      "notes": "Referred by existing customer"
+    },
+    {
+      "firstName": "Carol",
+      "lastName": "Wilson",
+      "companyName": "TechStart Inc",
+      "email": "carol.wilson@techstart.com",
+      "phone": "555-0203",
+      "source": "Cold Call",
+      "status": 0,
+      "score": 78,
+      "notes": "Interested in CRM solution"
+    },
+    {
+      "firstName": "Daniel",
+      "lastName": "Miller",
+      "companyName": "DataCorp",
+      "email": "daniel.miller@datacorp.com",
+      "phone": "555-0204",
+      "source": "Trade Show",
+      "status": 2,
+      "score": 88,
+      "notes": "Met at TechExpo 2024"
+    }
+  ]
+}

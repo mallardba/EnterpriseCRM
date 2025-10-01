@@ -1,0 +1,34 @@
+{
+  "opportunities": [
+    {
+      "customerId": 1,
+      "title": "Enterprise Software License",
+      "description": "Annual license for enterprise CRM solution",
+      "amount": 100000.00,
+      "probability": 75,
+      "stage": 2,
+      "status": 0,
+      "expectedCloseDate": "2024-12-31T00:00:00Z"
+    },
+    {
+      "customerId": 2,
+      "title": "Custom Development Project",
+      "description": "Custom web application development",
+      "amount": 150000.00,
+      "probability": 60,
+      "stage": 3,
+      "status": 0,
+      "expectedCloseDate": "2025-01-31T00:00:00Z"
+    },
+    {
+      "customerId": 1,
+      "title": "Cloud Migration Services",
+      "description": "Migration to cloud infrastructure",
+      "amount": 75000.00,
+      "probability": 70,
+      "stage": 1,
+      "status": 0,
+      "expectedCloseDate": "2024-11-30T00:00:00Z"
+    }
+  ]
+}

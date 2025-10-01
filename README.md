@@ -62,41 +62,27 @@ EnterpriseCRM/
 - .NET 8.0 SDK
 - SQL Server 2022 or LocalDB
 - Visual Studio 2022 or VS Code
-- Git
 
-**Installation Steps:**
+**Installation:**
 
-1. **Clone the repository:**
+1. **Clone and restore:**
    ```bash
    git clone https://github.com/yourusername/EnterpriseCRM.git
    cd EnterpriseCRM
-   ```
-
-2. **Restore packages:**
-   ```bash
    dotnet restore
    ```
 
-3. **Set up the database:**
-   - Create database: `CREATE DATABASE EnterpriseCRM;`
-   - Run setup script: `scripts/database-setup.sql`
-   - Update connection string in `src/EnterpriseCRM.WebAPI/appsettings.json`
+2. **Follow the [Setup Guide](docs/setup-guide.md)** for:
+   - Database setup and configuration
+   - Connection string configuration
+   - Running the application
+   - Testing setup
 
-4. **Run database migrations:**
-   ```bash
-   dotnet ef database update --project src/EnterpriseCRM.Infrastructure
-   ```
-
-5. **Start the application:**
-   ```bash
-   dotnet run --project src/EnterpriseCRM.BlazorServer
-   ```
-
-6. **Access the application:**
+3. **Access the application:**
    - Blazor Server: `https://localhost:5001`
-   - Web API: `https://localhost:7001`
+   - Web API: `https://localhost:5001/swagger`
 
-> **⚠️ Important:** Make sure to follow the complete [Setup Guide](docs/SETUP_GUIDE.md) for detailed configuration steps, troubleshooting, and additional setup options.
+> **⚠️ Important:** The setup guide contains detailed configuration steps, troubleshooting, and additional setup options.
 
 ## 🧪 Testing Strategy (TDD)
 

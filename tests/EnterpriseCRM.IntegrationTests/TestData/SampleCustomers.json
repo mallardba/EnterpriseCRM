@@ -1,0 +1,59 @@
+{
+  "customers": [
+    {
+      "companyName": "Test Company 1",
+      "email": "test1@example.com",
+      "type": 1,
+      "status": 0,
+      "firstName": "John",
+      "lastName": "Doe",
+      "phone": "555-0101",
+      "address": "123 Test St",
+      "city": "Test City",
+      "state": "TS",
+      "postalCode": "12345",
+      "country": "USA",
+      "industry": "Technology"
+    },
+    {
+      "companyName": "Test Company 2",
+      "email": "test2@example.com",
+      "type": 1,
+      "status": 0,
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "phone": "555-0102",
+      "address": "456 Test Ave",
+      "city": "Test City",
+      "state": "TS",
+      "postalCode": "12345",
+      "country": "USA",
+      "industry": "Software"
+    }
+  ],
+  "opportunities": [
+    {
+      "customerId": 1,
+      "title": "Test Opportunity 1",
+      "description": "Integration test opportunity",
+      "amount": 50000.00,
+      "probability": 75,
+      "stage": 2,
+      "status": 0,
+      "expectedCloseDate": "2024-12-31T00:00:00Z"
+    }
+  ],
+  "leads": [
+    {
+      "firstName": "Test",
+      "lastName": "Lead",
+      "companyName": "Test Lead Company",
+      "email": "lead@test.com",
+      "phone": "555-0201",
+      "source": "Website",
+      "status": 0,
+      "score": 85,
+      "notes": "Integration test lead"
+    }
+  ]
+}

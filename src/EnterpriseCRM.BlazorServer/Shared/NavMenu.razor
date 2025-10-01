@@ -1,0 +1,47 @@
+@using Microsoft.AspNetCore.Components.Routing
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Enterprise CRM</a>
+    </div>
+</div>
+
+<div class="nav-scrollable">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="customers">
+                <span class="oi oi-people" aria-hidden="true"></span> Customers
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="opportunities">
+                <span class="oi oi-dollar" aria-hidden="true"></span> Opportunities
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="leads">
+                <span class="oi oi-star" aria-hidden="true"></span> Leads
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="activities">
+                <span class="oi oi-calendar" aria-hidden="true"></span> Activities
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="products">
+                <span class="oi oi-box" aria-hidden="true"></span> Products
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="orders">
+                <span class="oi oi-cart" aria-hidden="true"></span> Orders
+            </NavLink>
+        </div>
+    </nav>
+</div>

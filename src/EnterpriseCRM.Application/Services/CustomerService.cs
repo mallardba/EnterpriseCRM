@@ -96,7 +96,7 @@ public class CustomerService : ICustomerService
         return _mapper.Map<CustomerDto>(customer);
     }
 
-    public async System.Threading.Tasks.Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
         var customer = await _unitOfWork.Customers.GetByIdAsync(id);
         if (customer == null)

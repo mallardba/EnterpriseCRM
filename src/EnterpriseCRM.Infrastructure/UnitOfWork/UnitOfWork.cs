@@ -2,6 +2,7 @@ using EnterpriseCRM.Core.Interfaces;
 using EnterpriseCRM.Infrastructure.Data;
 using EnterpriseCRM.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Threading.Tasks;
 
 namespace EnterpriseCRM.Infrastructure.UnitOfWork;
 
@@ -20,7 +21,7 @@ public class UnitOfWork : IUnitOfWork
         Contacts = new ContactRepository(_context);
         Leads = new LeadRepository(_context);
         Opportunities = new OpportunityRepository(_context);
-        Tasks = new TaskRepository(_context);
+        WorkItems = new WorkItemRepository(_context);
         Users = new UserRepository(_context);
     }
 
@@ -28,20 +29,20 @@ public class UnitOfWork : IUnitOfWork
     public IContactRepository Contacts { get; }
     public ILeadRepository Leads { get; }
     public IOpportunityRepository Opportunities { get; }
-    public ITaskRepository Tasks { get; }
+    public IWorkItemRepository WorkItems { get; }
     public IUserRepository Users { get; }
 
-    public async System.Threading.Tasks.Task<int> SaveChangesAsync()
+    public async Task<int> SaveChangesAsync()
     {
         return await _context.SaveChangesAsync();
     }
 
-    public async System.Threading.Tasks.Task BeginTransactionAsync()
+    public async Task BeginTransactionAsync()
     {
         _transaction = await _context.Database.BeginTransactionAsync();
     }
 
-    public async System.Threading.Tasks.Task CommitTransactionAsync()
+    public async Task CommitTransactionAsync()
     {
         if (_transaction != null)
         {
@@ -51,7 +52,7 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public async System.Threading.Tasks.Task RollbackTransactionAsync()
+    public async Task RollbackTransactionAsync()
     {
         if (_transaction != null)
         {

@@ -42,7 +42,7 @@ public class CustomerServiceTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_WhenCustomerExists_ShouldReturnCustomerDto()
+    public async Task GetByIdAsync_WhenCustomerExists_ShouldReturnCustomerDto()
     {
         // Arrange
         var customerId = 1;
@@ -100,7 +100,7 @@ public class CustomerServiceTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_WhenCustomerDoesNotExist_ShouldReturnNull()
+    public async Task GetByIdAsync_WhenCustomerDoesNotExist_ShouldReturnNull()
     {
         // Arrange
         var customerId = 999;

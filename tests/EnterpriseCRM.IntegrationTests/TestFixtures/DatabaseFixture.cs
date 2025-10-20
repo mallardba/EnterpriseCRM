@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using EnterpriseCRM.Infrastructure.Data;
 using EnterpriseCRM.Core.Entities;
+using System.Threading.Tasks;
 
 namespace EnterpriseCRM.IntegrationTests.TestFixtures;
 
@@ -9,7 +10,7 @@ public class DatabaseFixture : IAsyncLifetime
     public ApplicationDbContext Context { get; private set; } = null!;
     private string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=EnterpriseCRM_IntegrationTest;Trusted_Connection=true;";
 
-    public async System.Threading.Tasks.Task InitializeAsync()
+    public async Task InitializeAsync()
     {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseSqlServer(_connectionString)
@@ -24,7 +25,7 @@ public class DatabaseFixture : IAsyncLifetime
         await SeedTestDataAsync();
     }
 
-    public async System.Threading.Tasks.Task DisposeAsync()
+    public async Task DisposeAsync()
     {
         if (Context != null)
         {
@@ -33,7 +34,7 @@ public class DatabaseFixture : IAsyncLifetime
         }
     }
 
-    private async System.Threading.Tasks.Task SeedTestDataAsync()
+    private async Task SeedTestDataAsync()
     {
         // Add sample customers for integration tests
         if (!Context.Customers.Any())

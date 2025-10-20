@@ -145,16 +145,16 @@ public class OpportunityDto
 }
 
 /// <summary>
-/// Task Data Transfer Object
+/// WorkItem Data Transfer Object
 /// </summary>
-public class TaskDto
+public class WorkItemDto
 {
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public TaskType Type { get; set; }
-    public TaskPriority Priority { get; set; }
-    public EnterpriseCRM.Core.Entities.TaskStatus Status { get; set; }
+    public WorkItemType Type { get; set; }
+    public WorkItemPriority Priority { get; set; }
+    public WorkItemStatus Status { get; set; }
     public DateTime? DueDate { get; set; }
     public DateTime? CompletedDate { get; set; }
     public int AssignedToUserId { get; set; }
@@ -198,10 +198,10 @@ public class DashboardStatsDto
     public int TotalCustomers { get; set; }
     public int TotalLeads { get; set; }
     public int TotalOpportunities { get; set; }
-    public int TotalTasks { get; set; }
+    public int TotalWorkItems { get; set; }
     public decimal TotalPipelineValue { get; set; }
     public decimal ForecastedRevenue { get; set; }
-    public int OverdueTasks { get; set; }
+    public int OverdueWorkItems { get; set; }
     public int NewLeadsThisMonth { get; set; }
     public int ClosedWonOpportunities { get; set; }
     public decimal ClosedWonRevenue { get; set; }

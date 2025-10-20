@@ -77,7 +77,7 @@ public class Customer : BaseEntity
     public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
     public virtual ICollection<Lead> Leads { get; set; } = new List<Lead>();
     public virtual ICollection<Opportunity> Opportunities { get; set; } = new List<Opportunity>();
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+    public virtual ICollection<WorkItem> WorkItems { get; set; } = new List<WorkItem>();
 }
 
 /// <summary>
@@ -172,7 +172,7 @@ public class Lead : BaseEntity
     // Navigation properties
     public virtual User? AssignedToUser { get; set; }
     public virtual Customer? Customer { get; set; }
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+    public virtual ICollection<WorkItem> WorkItems { get; set; } = new List<WorkItem>();
 }
 
 /// <summary>
@@ -212,13 +212,13 @@ public class Opportunity : BaseEntity
     // Navigation properties
     public virtual Customer Customer { get; set; } = null!;
     public virtual User? AssignedToUser { get; set; }
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+    public virtual ICollection<WorkItem> WorkItems { get; set; } = new List<WorkItem>();
 }
 
 /// <summary>
-/// Task entity representing activities and tasks
+/// WorkItem entity representing work items, activities, or assignments
 /// </summary>
-public class Task : BaseEntity
+public class WorkItem : BaseEntity
 {
     [Required]
     [MaxLength(200)]
@@ -227,11 +227,11 @@ public class Task : BaseEntity
     [MaxLength(1000)]
     public string? Description { get; set; }
     
-    public TaskType Type { get; set; } = TaskType.General;
+    public WorkItemType Type { get; set; } = WorkItemType.General;
     
-    public TaskPriority Priority { get; set; } = TaskPriority.Medium;
+    public WorkItemPriority Priority { get; set; } = WorkItemPriority.Medium;
     
-    public TaskStatus Status { get; set; } = TaskStatus.Pending;
+    public WorkItemStatus Status { get; set; } = WorkItemStatus.Pending;
     
     public DateTime? DueDate { get; set; }
     
@@ -297,7 +297,7 @@ public class User : BaseEntity
     public string? Department { get; set; }
     
     // Navigation properties
-    public virtual ICollection<Task> AssignedTasks { get; set; } = new List<Task>();
+    public virtual ICollection<WorkItem> AssignedTasks { get; set; } = new List<WorkItem>();
     public virtual ICollection<Lead> AssignedLeads { get; set; } = new List<Lead>();
     public virtual ICollection<Opportunity> AssignedOpportunities { get; set; } = new List<Opportunity>();
 }
@@ -374,7 +374,7 @@ public enum OpportunityStatus
     Cancelled
 }
 
-public enum TaskType
+public enum WorkItemType
 {
     General,
     Call,
@@ -386,7 +386,7 @@ public enum TaskType
     Other
 }
 
-public enum TaskPriority
+public enum WorkItemPriority
 {
     Low,
     Medium,
@@ -394,7 +394,7 @@ public enum TaskPriority
     Critical
 }
 
-public enum TaskStatus
+public enum WorkItemStatus
 {
     Pending,
     InProgress,

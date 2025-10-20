@@ -374,7 +374,7 @@ namespace EnterpriseCRM.Infrastructure.Migrations
                     b.ToTable("Opportunities");
                 });
 
-            modelBuilder.Entity("EnterpriseCRM.Core.Entities.Task", b =>
+            modelBuilder.Entity("EnterpriseCRM.Core.Entities.WorkItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -454,7 +454,7 @@ namespace EnterpriseCRM.Infrastructure.Migrations
 
                     b.HasIndex("Status");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("WorkItems");
                 });
 
             modelBuilder.Entity("EnterpriseCRM.Core.Entities.User", b =>
@@ -588,7 +588,7 @@ namespace EnterpriseCRM.Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("EnterpriseCRM.Core.Entities.Task", b =>
+            modelBuilder.Entity("EnterpriseCRM.Core.Entities.WorkItem", b =>
                 {
                     b.HasOne("EnterpriseCRM.Core.Entities.User", "AssignedToUser")
                         .WithMany("AssignedTasks")
@@ -597,17 +597,17 @@ namespace EnterpriseCRM.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("EnterpriseCRM.Core.Entities.Customer", "Customer")
-                        .WithMany("Tasks")
+                        .WithMany("WorkItems")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("EnterpriseCRM.Core.Entities.Lead", "Lead")
-                        .WithMany("Tasks")
+                        .WithMany("WorkItems")
                         .HasForeignKey("LeadId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("EnterpriseCRM.Core.Entities.Opportunity", "Opportunity")
-                        .WithMany("Tasks")
+                        .WithMany("WorkItems")
                         .HasForeignKey("OpportunityId")
                         .OnDelete(DeleteBehavior.SetNull);
 
@@ -628,17 +628,17 @@ namespace EnterpriseCRM.Infrastructure.Migrations
 
                     b.Navigation("Opportunities");
 
-                    b.Navigation("Tasks");
+                    b.Navigation("WorkItems");
                 });
 
             modelBuilder.Entity("EnterpriseCRM.Core.Entities.Lead", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("WorkItems");
                 });
 
             modelBuilder.Entity("EnterpriseCRM.Core.Entities.Opportunity", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("WorkItems");
                 });
 
             modelBuilder.Entity("EnterpriseCRM.Core.Entities.User", b =>

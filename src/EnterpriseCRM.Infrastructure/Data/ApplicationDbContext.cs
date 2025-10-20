@@ -18,7 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Contact> Contacts { get; set; }
     public DbSet<Lead> Leads { get; set; }
     public DbSet<Opportunity> Opportunities { get; set; }
-    public DbSet<EnterpriseCRM.Core.Entities.Task> Tasks { get; set; }
+    public DbSet<WorkItem> WorkItems { get; set; }
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -147,8 +147,8 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(e => e.AssignedToUserId);
         });
 
-        // Configure Task entity
-        modelBuilder.Entity<EnterpriseCRM.Core.Entities.Task>(entity =>
+        // Configure WorkItem entity
+        modelBuilder.Entity<WorkItem>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
@@ -163,17 +163,17 @@ public class ApplicationDbContext : DbContext
                   .OnDelete(DeleteBehavior.Cascade);
             
             entity.HasOne(e => e.Customer)
-                  .WithMany(c => c.Tasks)
+                  .WithMany(c => c.WorkItems)
                   .HasForeignKey(e => e.CustomerId)
                   .OnDelete(DeleteBehavior.SetNull);
             
             entity.HasOne(e => e.Lead)
-                  .WithMany(l => l.Tasks)
+                  .WithMany(l => l.WorkItems)
                   .HasForeignKey(e => e.LeadId)
                   .OnDelete(DeleteBehavior.SetNull);
             
             entity.HasOne(e => e.Opportunity)
-                  .WithMany(o => o.Tasks)
+                  .WithMany(o => o.WorkItems)
                   .HasForeignKey(e => e.OpportunityId)
                   .OnDelete(DeleteBehavior.SetNull);
             

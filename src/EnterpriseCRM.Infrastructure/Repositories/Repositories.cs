@@ -363,3 +363,42 @@ public class UserRepository : Repository<User>, IUserRepository
         return user.PasswordHash == password;
     }
 }
+
+/// <summary>
+/// Product repository implementation
+/// </summary>
+public class ProductRepository : Repository<Product>, IProductRepository
+{
+    public ProductRepository(ApplicationDbContext context) : base(context)
+    {
+    }
+
+    public async Task<IEnumerable<Product>> GetByCategoryAsync(string category)
+    {
+        return await _dbSet
+            .Where(p => p.Category == category && p.IsActive)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Product>> GetActiveProductsAsync()
+    {
+        return await _dbSet
+            .Where(p => p.IsActive)
+            .ToListAsync();
+    }
+
+    public async Task<Product?> GetBySKUAsync(string sku)
+    {
+        return await _dbSet
+            .FirstOrDefaultAsync(p => p.SKU == sku);
+    }
+
+    public async Task<IEnumerable<Product>> SearchAsync(string searchTerm)
+    {
+        return await _dbSet
+            .Where(p => p.Name.Contains(searchTerm) ||
+                       p.SKU!.Contains(searchTerm) ||
+                       p.Category!.Contains(searchTerm))
+            .ToListAsync();
+    }
+}

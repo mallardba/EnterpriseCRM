@@ -23,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
         Opportunities = new OpportunityRepository(_context);
         WorkItems = new WorkItemRepository(_context);
         Users = new UserRepository(_context);
+        Products = new ProductRepository(_context);
     }
 
     public ICustomerRepository Customers { get; }
@@ -31,6 +32,7 @@ public class UnitOfWork : IUnitOfWork
     public IOpportunityRepository Opportunities { get; }
     public IWorkItemRepository WorkItems { get; }
     public IUserRepository Users { get; }
+    public IProductRepository Products { get; }
 
     public async Task<int> SaveChangesAsync()
     {

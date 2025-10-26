@@ -217,7 +217,7 @@ public class ProductServiceTests
 }
 ```
 
-**Expected Result**: ❌ Build fails - `IProductService`, `ProductService`, `ProductDto` don't exist
+**Expected Result**: ❌ Build fails - `IProductService`, `ProductService`, `ProductDto`, and `IProductRepository` don't exist
 
 ---
 
@@ -521,8 +521,6 @@ public interface IUnitOfWork : IDisposable
 Update `src/EnterpriseCRM.Infrastructure/UnitOfWork/UnitOfWork.cs`:
 
 ```csharp
-public IProductRepository Products { get; }
-
 // In constructor:
 public UnitOfWork(ApplicationDbContext context)
 {
@@ -535,6 +533,15 @@ public UnitOfWork(ApplicationDbContext context)
     Users = new UserRepository(_context);
     Products = new ProductRepository(_context); // ADD THIS
 }
+
+// Implemented Interfaces:
+public ICustomerRepository Customers { get; }
+public IContactRepository Contacts { get; }
+public ILeadRepository Leads { get; }
+public IOpportunityRepository Opportunities { get; }
+public IWorkItemRepository WorkItems { get; }
+public IUserRepository Users { get; }
+public IProductRepository Products { get; } // ADD THIS
 ```
 
 ---

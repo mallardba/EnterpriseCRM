@@ -136,6 +136,22 @@ public interface IAuthenticationService
     Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword);
 }
 
+/// <summary>
+/// Product service interface
+/// </summary>
+public interface IProductService
+{
+    Task<ProductDto?> GetByIdAsync(int id);
+    Task<PagedResultDto<ProductDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+    Task<PagedResultDto<ProductDto>> SearchAsync(string searchTerm, int pageNumber = 1, int pageSize = 10);
+    Task<ProductDto> CreateAsync(CreateProductDto createDto, string currentUser);
+    Task<ProductDto> UpdateAsync(UpdateProductDto updateDto, string currentUser);
+    Task DeleteAsync(int id);
+    Task<IEnumerable<ProductDto>> GetByCategoryAsync(string category);
+    Task<IEnumerable<ProductDto>> GetActiveProductsAsync();
+    Task<ProductDto?> GetBySKUAsync(string sku);
+}
+
 // Additional DTOs for create/update operations
 public class CreateContactDto
 {

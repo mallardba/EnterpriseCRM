@@ -103,9 +103,21 @@ public interface IUnitOfWork : IDisposable
     IOpportunityRepository Opportunities { get; }
     IWorkItemRepository WorkItems { get; }
     IUserRepository Users { get; }
-    
+    IProductRepository Products { get; }
+
     Task<int> SaveChangesAsync();
     Task BeginTransactionAsync();
     Task CommitTransactionAsync();
     Task RollbackTransactionAsync();
+}
+
+/// <summary>
+/// Product repository interface
+/// </summary>
+public interface IProductRepository : IRepository<Product>
+{
+    Task<IEnumerable<Product>> GetByCategoryAsync(string category);
+    Task<IEnumerable<Product>> GetActiveProductsAsync();
+    Task<Product?> GetBySKUAsync(string sku);
+    Task<IEnumerable<Product>> SearchAsync(string searchTerm);
 }

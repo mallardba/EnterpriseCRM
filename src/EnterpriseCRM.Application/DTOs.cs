@@ -350,3 +350,61 @@ public class ChangePasswordDto
     [MinLength(6)]
     public string NewPassword { get; set; } = string.Empty;
 }
+
+/// <summary>
+/// Product Data Transfer Object
+/// </summary>
+public class ProductDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public string? SKU { get; set; }
+    public decimal Price { get; set; }
+    public decimal? Cost { get; set; }
+    public string? Category { get; set; }
+    public bool IsActive { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+}
+
+/// <summary>
+/// Product creation DTO
+/// </summary>
+public class CreateProductDto
+{
+    [Required]
+    [MaxLength(200)]
+    public string Name { get; set; } = string.Empty;
+
+    [MaxLength(1000)]
+    public string? Description { get; set; }
+
+    [MaxLength(100)]
+    public string? SKU { get; set; }
+
+    [Required]
+    public decimal Price { get; set; }
+
+    public decimal? Cost { get; set; }
+
+    [MaxLength(100)]
+    public string? Category { get; set; }
+
+    public bool IsActive { get; set; } = true;
+}
+
+/// <summary>
+/// Product update DTO
+/// </summary>
+public class UpdateProductDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public string? SKU { get; set; }
+    public decimal Price { get; set; }
+    public decimal? Cost { get; set; }
+    public string? Category { get; set; }
+    public bool IsActive { get; set; }
+}

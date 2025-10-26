@@ -1,6 +1,5 @@
 using EnterpriseCRM.Application.DTOs;
 using EnterpriseCRM.Core.Entities;
-using System.Threading.Tasks;
 
 namespace EnterpriseCRM.Application.Interfaces;
 
@@ -123,6 +122,18 @@ public interface IDashboardService
     Task<IEnumerable<WorkItemDto>> GetOverdueWorkItemsAsync();
     Task<Dictionary<string, int>> GetLeadSourceStatsAsync();
     Task<Dictionary<string, decimal>> GetMonthlyRevenueAsync(int months);
+}
+
+/// <summary>
+/// Authentication service interface
+/// </summary>
+public interface IAuthenticationService
+{
+    Task<LoginResponseDto> LoginAsync(LoginRequestDto loginDto);
+    Task<bool> ValidateTokenAsync(string token);
+    Task<UserDto?> GetUserFromTokenAsync(string token);
+    Task<string> GenerateTokenAsync(User user);
+    Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword);
 }
 
 // Additional DTOs for create/update operations

@@ -30,6 +30,7 @@ public class CustomersController : ControllerBase
     /// <param name="pageSize">Page size (default: 10)</param>
     /// <returns>Paged list of customers</returns>
     [HttpGet]
+    [Authorize(Policy = "UserOrAbove")]
     public async Task<ActionResult<PagedResultDto<CustomerDto>>> GetAll(
         [FromQuery] int pageNumber = 1, 
         [FromQuery] int pageSize = 10)
@@ -106,6 +107,7 @@ public class CustomersController : ControllerBase
     /// <param name="createDto">Customer creation data</param>
     /// <returns>Created customer</returns>
     [HttpPost]
+    [Authorize(Policy = "ManagerOrAdmin")]
     public async Task<ActionResult<CustomerDto>> Create([FromBody] CreateCustomerDto createDto)
     {
         try
@@ -134,6 +136,7 @@ public class CustomersController : ControllerBase
     /// <param name="updateDto">Customer update data</param>
     /// <returns>Updated customer</returns>
     [HttpPut("{id}")]
+    [Authorize(Policy = "ManagerOrAdmin")]
     public async Task<ActionResult<CustomerDto>> Update(int id, [FromBody] UpdateCustomerDto updateDto)
     {
         try
@@ -166,6 +169,7 @@ public class CustomersController : ControllerBase
     /// <param name="id">Customer ID</param>
     /// <returns>No content</returns>
     [HttpDelete("{id}")]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Delete(int id)
     {
         try

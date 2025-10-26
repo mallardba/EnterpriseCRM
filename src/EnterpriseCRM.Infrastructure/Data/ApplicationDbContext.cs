@@ -197,6 +197,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Phone).HasMaxLength(20);
             entity.Property(e => e.JobTitle).HasMaxLength(100);
             entity.Property(e => e.Department).HasMaxLength(100);
+            entity.Property(e => e.LastLoginDate);
             entity.Property(e => e.CreatedBy).IsRequired().HasMaxLength(100);
             entity.Property(e => e.UpdatedBy).HasMaxLength(100);
             

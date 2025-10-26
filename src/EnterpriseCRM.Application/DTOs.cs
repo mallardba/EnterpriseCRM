@@ -1,4 +1,5 @@
 using EnterpriseCRM.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace EnterpriseCRM.Application.DTOs;
 
@@ -220,4 +221,132 @@ public class PagedResultDto<T>
     public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
     public bool HasPreviousPage => PageNumber > 1;
     public bool HasNextPage => PageNumber < TotalPages;
+}
+
+/// <summary>
+/// Login request DTO
+/// </summary>
+public class LoginRequestDto
+{
+    [Required]
+    [MaxLength(100)]
+    public string Username { get; set; } = string.Empty;
+
+    [Required]
+    [MinLength(8)]
+    public string Password { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Login response DTO
+/// </summary>
+public class LoginResponseDto
+{
+    public string Token { get; set; } = string.Empty;
+    public DateTime ExpiresAt { get; set; }
+    public UserDto User { get; set; } = null!;
+}
+
+/// <summary>
+/// User DTO for authentication
+/// </summary>
+public class UserAuthDto
+{
+    public int Id { get; set; }
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Username { get; set; } = string.Empty;
+    public UserRole Role { get; set; }
+    public UserStatus Status { get; set; }
+    public DateTime? LastLoginDate { get; set; }
+    public string? JobTitle { get; set; }
+    public string? Department { get; set; }
+}
+
+/// <summary>
+/// User registration DTO
+/// </summary>
+public class RegisterUserDto
+{
+    [Required]
+    [MaxLength(100)]
+    public string FirstName { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(100)]
+    public string LastName { get; set; } = string.Empty;
+
+    [Required]
+    [EmailAddress]
+    [MaxLength(255)]
+    public string Email { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(100)]
+    public string Username { get; set; } = string.Empty;
+
+    [Required]
+    [MinLength(8)]
+    public string Password { get; set; } = string.Empty;
+
+    public UserRole Role { get; set; } = UserRole.User;
+
+    [MaxLength(20)]
+    public string? Phone { get; set; } = string.Empty;
+
+    [MaxLength(100)]
+    public string? JobTitle { get; set; } = string.Empty;
+
+    [MaxLength(100)]
+    public string? Department { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Update user DTO
+/// </summary>
+public class UpdateUserDto
+{
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(100)]
+    public string FirstName { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(100)]
+    public string LastName { get; set; } = string.Empty;
+
+    [Required]
+    [EmailAddress]
+    [MaxLength(255)]
+    public string Email { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(100)]
+    public string Username { get; set; } = string.Empty;
+
+    public UserRole Role { get; set; }
+
+    [MaxLength(20)]
+    public string? Phone { get; set; } = string.Empty;
+
+    [MaxLength(100)]
+    public string? JobTitle { get; set; } = string.Empty;
+
+    [MaxLength(100)]
+    public string? Department { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Change password DTO
+/// </summary>
+public class ChangePasswordDto
+{
+    [Required]
+    public string CurrentPassword { get; set; } = string.Empty;
+    
+    [Required]
+    [MinLength(6)]
+    public string NewPassword { get; set; } = string.Empty;
 }

@@ -302,6 +302,52 @@ public class User : BaseEntity
     public virtual ICollection<Opportunity> AssignedOpportunities { get; set; } = new List<Opportunity>();
 }
 
+/// <summary>
+/// OrderItem entity representing items in an order
+/// </summary>
+public class OrderItem : BaseEntity
+{
+    [Required]
+    public int OrderId { get; set; }
+    public int ProductId { get; set; } // ADD THIS
+
+    public decimal Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+
+    // Navigation properties
+    // public virtual Order Order { get; set; }
+    public virtual Product? Product { get; set; }
+}
+
+/// <summary>
+/// Product entity representing products in catalog
+/// </summary>
+public class Product : BaseEntity
+{
+    [Required]
+    [MaxLength(200)]
+    public string Name { get; set; } = string.Empty;
+
+    [MaxLength(1000)]
+    public string? Description { get; set; }
+
+    [MaxLength(100)]
+    public string? SKU { get; set; }
+
+    [Required]
+    public decimal Price { get; set; }
+
+    public decimal? Cost { get; set; }
+
+    [MaxLength(100)]
+    public string? Category { get; set; }
+
+    public bool IsActive { get; set; } = true;
+
+    // Navigation properties
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+}
+
 // Enums
 public enum CustomerType
 {

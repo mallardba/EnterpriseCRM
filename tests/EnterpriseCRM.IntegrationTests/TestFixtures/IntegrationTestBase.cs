@@ -11,7 +11,7 @@ public abstract class IntegrationTestBase
     // TODO: Add WebApplicationFactory integration once Program class is accessible
     // This base class will be implemented when we resolve the Program class accessibility issue
     
-    protected async Task<T?> DeserializeResponse<T>(string content)
+    protected T? DeserializeResponse<T>(string content)
     {
         if (string.IsNullOrEmpty(content))
             return default;
@@ -22,7 +22,7 @@ public abstract class IntegrationTestBase
         });
     }
 
-    protected async Task<T> DeserializeResponseOrThrow<T>(string content)
+    protected T DeserializeResponseOrThrow<T>(string content)
     {
         if (string.IsNullOrEmpty(content))
             throw new InvalidOperationException("Response content is empty");

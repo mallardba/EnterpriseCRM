@@ -13,7 +13,97 @@ We'll implement a complete Product management system following the **Red-Green-R
 
 ---
 
+## 📑 Table of Contents
+
+1. [TDD Process Overview](#-tdd-process-overview)
+2. [Implementation Order](#-implementation-order)
+3. [Step 1: Define Test Requirements](#-step-1-define-test-requirements-before-writing-code)
+4. [Step 2: Red Phase - Write Failing Tests](#-step-2-red-phase---write-failing-tests)
+5. [Step 3: Green Phase - Implement Minimum Code](#-step-3-green-phase---implement-minimum-code-to-pass-tests)
+6. [Step 4: Run Tests to Verify](#-step-4-run-tests-to-verify)
+7. [Step 5: Refactor Phase - Improve Code](#-step-5-refactor-phase---improve-code)
+8. [Step 6: Documentation and Interview Talking Points](#-step-6-documentation-and-interview-talking-points)
+9. [Step 7: Complete Test Suite](#-step-7-complete-test-suite)
+10. [Step 8: Create Database Migration](#-step-8-create-database-migration)
+11. [Step 9: Verify in Swagger](#-step-9-verify-in-swagger)
+12. [TDD Interview Flow Summary](#-summary-tdd-interview-flow)
+13. [Architecture Overview](#-architecture-overview-how-everything-connects)
+14. [Clean Architecture Layers Summary](#️-clean-architecture-layers-summary)
+
+---
+
 ## 📋 TDD Process Overview
+
+## 🏗️ Implementation Order
+
+When creating a new feature using Clean Architecture and TDD, follow this implementation order:
+
+1. **Write Entity Tests (RED)** → `tests/EnterpriseCRM.UnitTests/Entities/ProductTests.cs` - **Testing Layer**
+   - Test Product entity properties and validation
+   - Verify navigation properties work correctly
+   - Tests should FAIL (Product doesn't exist yet)
+
+2. **Create Entity (GREEN)** → `src/EnterpriseCRM.Core/Entities.cs` - **Core Layer**
+   - Define Product class with properties
+   - Add navigation properties (OrderItems, etc.)
+   - Entity tests now PASS
+
+3. **Write Service Tests (RED)** → `tests/EnterpriseCRM.UnitTests/Services/ProductServiceTests.cs` - **Testing Layer**
+   - Test ProductService.GetByIdAsync, GetAllAsync, CreateAsync
+   - Mock IUnitOfWork and IMapper
+   - Tests should FAIL (ProductService doesn't exist yet)
+
+4. **Create DTOs** → `src/EnterpriseCRM.Application/DTOs.cs` - **Application Layer**
+   - ProductDto (for read operations)
+   - CreateProductDto (for create operations)
+   - UpdateProductDto (for update operations)
+
+6. **Create Repository Interface** → `src/EnterpriseCRM.Core/Interfaces.cs` - **Core Layer**
+   - IProductRepository interface extending IRepository<Product>
+
+7. **Implement Repository** → `src/EnterpriseCRM.Infrastructure/Repositories/Repositories.cs` - **Infrastructure Layer**
+   - ProductRepository class implementing IProductRepository
+   - Add specific methods (GetByCategory, Search, etc.)
+
+8. **Add to Unit of Work** → `src/EnterpriseCRM.Infrastructure/UnitOfWork/UnitOfWork.cs` - **Infrastructure Layer**
+   - Add IProductRepository Products property
+   - Instantiate ProductRepository in constructor
+
+9. **Create Service Interface** → `src/EnterpriseCRM.Application/Interfaces.cs` - **Application Layer**
+   - IProductService interface with methods (GetByIdAsync, GetAllAsync, etc.)
+
+10. **Implement Service (GREEN)** → `src/EnterpriseCRM.Application/Services/ProductService.cs` - **Application Layer**
+    - ProductService implementing IProductService
+    - Use UnitOfWork and AutoMapper
+    - Service tests now PASS
+
+11. **Update AutoMapper** → `src/EnterpriseCRM.Application/MappingProfile.cs` - **Application Layer**
+    - CreateMap<Product, ProductDto>()
+    - CreateMap<CreateProductDto, Product>()
+    - CreateMap<UpdateProductDto, Product>()
+
+12. **Write Controller Tests (RED)** → `tests/EnterpriseCRM.UnitTests/Controllers/ProductsControllerTests.cs` - **Testing Layer**
+    - Test ProductsController endpoints
+    - Mock IProductService
+    - Tests should FAIL (ProductsController doesn't exist yet)
+
+13. **Create Controller (GREEN)** → `src/EnterpriseCRM.WebAPI/Controllers/ProductsController.cs` - **WebAPI Layer**
+    - ProductsController with CRUD endpoints
+    - Add [Authorize] attributes with policies
+    - Controller tests now PASS
+
+14. **Register Service** → `src/EnterpriseCRM.WebAPI/Program.cs` - **WebAPI Layer**
+    - builder.Services.AddScoped<IProductService, ProductService>();
+
+15. **Configure DbContext** → `src/EnterpriseCRM.Infrastructure/Data/ApplicationDbContext.cs` - **Infrastructure Layer**
+    - Add public DbSet<Product> Products { get; set; }
+    - Configure entity in OnModelCreating
+
+16. **Create Migration** → `src/EnterpriseCRM.Infrastructure/Migrations/` - **Infrastructure Layer**
+    - dotnet ef migrations add AddProductEntity
+    - dotnet ef database update
+
+**Key Principle**: Follow the dependency direction (outer → inner layers) and implement from bottom to top (Entity → DTO → Service → Controller).
 
 ### **Phase 1: Red - Write Failing Tests**
 Write tests that define the desired behavior before implementing the feature.

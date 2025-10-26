@@ -20,6 +20,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Opportunity> Opportunities { get; set; }
     public DbSet<WorkItem> WorkItems { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -205,6 +206,23 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(e => e.Username).IsUnique();
             entity.HasIndex(e => e.Role);
             entity.HasIndex(e => e.Status);
+        });
+
+        modelBuilder.Entity<Product>(entity =>
+        {
+          entity.HasKey(e => e.Id);
+          entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
+          entity.Property(e => e.Description).HasMaxLength(1000);
+          entity.Property(e => e.SKU).HasMaxLength(100);
+          entity.Property(e => e.Price).IsRequired().HasColumnType("decimal(18,2)");
+          entity.Property(e => e.Cost).HasColumnType("decimal(18,2)");
+          entity.Property(e => e.Category).HasMaxLength(100);
+          entity.Property(e => e.CreatedBy).IsRequired().HasMaxLength(100);
+          entity.Property(e => e.UpdatedBy).HasMaxLength(100);
+
+          entity.HasIndex(e => e.SKU).IsUnique();
+          entity.HasIndex(e => e.Category);
+          entity.HasIndex(e => e.IsActive);
         });
 
         // Configure soft delete for all entities

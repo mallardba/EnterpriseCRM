@@ -91,6 +91,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Add Application Services
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 

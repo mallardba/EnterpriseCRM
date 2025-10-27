@@ -13,6 +13,19 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient<IProductClientService, ProductClientService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:5001");
+})
+.ConfigurePrimaryHttpMessageHandler(() =>
+{
+    var handler = new HttpClientHandler();
+
+    // ⚠️ DEVELOPMENT ONLY: Allow invalid certificates
+    if (builder.Environment.IsDevelopment())
+    {
+        handler.ServerCertificateCustomValidationCallback =
+            HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+    }
+
+    return handler;
 });
 
 // Add Entity Framework

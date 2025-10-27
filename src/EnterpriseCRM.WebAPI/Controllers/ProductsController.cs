@@ -7,7 +7,7 @@ namespace EnterpriseCRM.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+// [Authorize]
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -20,7 +20,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Policy = "UserOrAbove")]
+    // [Authorize(Policy = "UserOrAbove")]
     public async Task<ActionResult<PagedResultDto<ProductDto>>> GetAll(
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10)
@@ -57,7 +57,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Policy = "ManagerOrAdmin")]
+    // [Authorize(Policy = "ManagerOrAdmin")]
     public async Task<ActionResult<ProductDto>> Create([FromBody] CreateProductDto createDto)
     {
         try

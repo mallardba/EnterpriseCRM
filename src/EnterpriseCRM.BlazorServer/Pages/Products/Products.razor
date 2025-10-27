@@ -1,0 +1,27 @@
+@page "/products"
+@using EnterpriseCRM.BlazorServer.Components.Products
+@using Microsoft.AspNetCore.Components.Web
+
+<PageTitle>Products</PageTitle>
+
+<h1>Product Management</h1>
+
+<div class="d-flex justify-content-between mb-3 align-items-center">
+    <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Search products..." @bind="searchTerm" />
+    </div>
+    <div>
+        <button class="btn btn-primary" @onclick="ShowCreateForm">Add Product</button>
+    </div>
+</div>
+
+<ProductsList />
+
+@code {
+    private string searchTerm = string.Empty;
+
+    private void ShowCreateForm()
+    {
+        // Navigate to create page
+    }
+}

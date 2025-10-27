@@ -9,6 +9,7 @@
 ## 📋 Table of Contents
 
 - [Overview](#overview)
+- [@inject Directive in Blazor](#inject-directive-in-blazor)
 - [Services Container](#services-container)
 - [AddSingleton Method](#addsingleton-method)
 - [Moq Framework](#moq-framework)
@@ -26,6 +27,299 @@ In real applications, Blazor components depend on services (like HTTP clients, r
 - ✅ **Control** what services return
 - ✅ **Speed up** tests (no real HTTP calls)
 - ✅ **Make tests** reliable and repeatable
+
+---
+
+## 🔌 @inject Directive in Blazor
+
+### What is @inject?
+
+The `@inject` directive in Blazor is used to **inject dependencies** into components from the DI container.
+
+```razor
+@using EnterpriseCRM.BlazorServer.Services
+@inject IProductClientService ProductService
+```
+
+### How @inject Works
+
+1. **Registers a property** in your component
+2. **Requests a service** from the DI container
+3. **Sets the property** automatically
+4. **Makes the service available** in your component's code
+
+#### Complete Example
+
+```razor
+@using EnterpriseCRM.BlazorServer.Services
+@inject IProductClientService ProductService
+
+<h3>Products</h3>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        // ProductService is available here because of @inject
+        var products = await ProductService.GetAllAsync();
+    }
+}
+```
+
+### Behind the Scenes
+
+When you use `@inject`, Blazor automatically generates code like this:
+
+```csharp
+// What you write
+@inject IProductClientService ProductService
+
+// What Blazor generates behind the scenes
+[Inject]
+public IProductClientService ProductService { get; set; } = default!;
+```
+
+### Why is @inject Needed?
+
+**Without @inject** (doesn't work):
+```razor
+@code {
+    // ❌ This won't work - no property exists
+    protected override async Task OnInitializedAsync()
+    {
+        var products = await ProductService.GetAllAsync(); // Error!
+    }
+}
+```
+
+**With @inject** (works):
+```razor
+@inject IProductClientService ProductService
+
+@code {
+    // ✅ Now ProductService is available
+    protected override async Task OnInitializedAsync()
+    {
+        var products = await ProductService.GetAllAsync(); // Works!
+    }
+}
+```
+
+### What Happens During Injection?
+
+```
+┌─────────────────────────────────────────┐
+│ Component renders                        │
+└────────────┬────────────────────────────┘
+             │
+             │ Needs IProductClientService
+             ↓
+┌─────────────────────────────────────────┐
+│ DI Container                              │
+│ - Looks up IProductClientService         │
+│ - Finds registered instance               │
+│ - Returns ProductClientService instance  │
+└────────────┬────────────────────────────┘
+             │
+             │ Injects instance
+             ↓
+┌─────────────────────────────────────────┐
+│ Component receives:                      │
+│ ProductService = [instance]              │
+│ - Can now use ProductService             │
+└─────────────────────────────────────────┘
+```
+
+### Common Use Cases
+
+#### 1. HTTP Client Services
+```razor
+@inject IProductClientService ProductService
+```
+
+#### 2. Navigation Manager
+```razor
+@inject NavigationManager Navigation
+```
+
+#### 3. Logger
+```razor
+@inject ILogger<MyComponent> Logger
+```
+
+#### 4. Custom Services
+```razor
+@inject ICustomService MyService
+```
+
+### @inject vs Constructor Injection
+
+In regular C# classes, you use constructor injection:
+
+```csharp
+public class MyService
+{
+    private readonly IHttpClient _httpClient;
+    
+    public MyService(IHttpClient httpClient) // Constructor injection
+    {
+        _httpClient = httpClient;
+    }
+}
+```
+
+In Blazor components, you use `@inject`:
+
+```razor
+@inject IHttpClient HttpClient
+
+@code {
+    // HttpClient is available here
+}
+```
+
+**Why the difference?**
+- Blazor components have special lifecycle
+- `@inject` is cleaner syntax for markup
+- Automatically sets properties during component creation
+
+### Multiple @inject Statements
+
+You can inject multiple services:
+
+```razor
+@inject IProductClientService ProductService
+@inject ICustomerClientService CustomerService
+@inject ILogger<ProductsList> Logger
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        Logger.LogInformation("Loading products");
+        var products = await ProductService.GetAllAsync();
+    }
+}
+```
+
+### What If Service Not Registered?
+
+If you `@inject` a service that isn't registered in `Program.cs`:
+
+```razor
+@inject INotRegisteredService Service // ❌ Not registered
+```
+
+You'll get a runtime error:
+```
+InvalidOperationException: Unable to resolve service for type 'INotRegisteredService'
+```
+
+**Solution:** Register the service in `Program.cs`:
+
+```csharp
+builder.Services.AddScoped<INotRegisteredService, RegisteredService>();
+```
+
+### @inject in Tests
+
+In tests, you don't use `@inject`. Instead, you register mocks in the `Services` container:
+
+```csharp
+public class ProductsListTests : TestContext
+{
+    private readonly Mock<IProductClientService> _productServiceMock;
+
+    public ProductsListTests()
+    {
+        _productServiceMock = new Mock<IProductClientService>();
+        Services.AddSingleton<IProductClientService>(_productServiceMock.Object);
+        //                             ↑
+        //                     Now when component uses @inject,
+        //                     it will get our mock
+    }
+}
+```
+
+When the component tries to `@inject IProductClientService`, it gets the mock instead of the real service.
+
+### Complete @inject Example
+
+```razor
+@using EnterpriseCRM.BlazorServer.Services
+@inject IProductClientService ProductService
+@inject ILogger<ProductsList> Logger
+
+<h3>Products</h3>
+
+@if (products == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @foreach (var product in products)
+    {
+        <div>@product.Name</div>
+    }
+}
+
+@code {
+    private IEnumerable<ProductDto>? products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Logger.LogInformation("Loading products");
+        products = await ProductService.GetAllAsync();
+        Logger.LogInformation("Loaded {Count} products", products.Count());
+    }
+}
+```
+
+### Real Example: ProductForm.razor
+
+In `ProductForm.razor`, `@inject` is essential for the component to communicate with the WebAPI:
+
+```razor
+@using EnterpriseCRM.BlazorServer.Services
+@inject IProductClientService ProductService
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit && ProductId.HasValue)
+        {
+            // ❌ Without @inject: ProductService doesn't exist - Error!
+            // ✅ With @inject: ProductService is available and loaded from DI
+            var existingProduct = await ProductService.GetByIdAsync(ProductId.Value);
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (IsEdit)
+        {
+            // ❌ Without @inject: Cannot access ProductService
+            await ProductService.UpdateAsync(updateDto);
+        }
+        else
+        {
+            // ❌ Without @inject: Cannot create products
+            await ProductService.CreateAsync(product);
+        }
+    }
+}
+```
+
+**Why ProductForm needs @inject:**
+- ✅ **Fetches existing products** from WebAPI for editing
+- ✅ **Creates new products** via HTTP calls
+- ✅ **Updates products** with new data
+- ✅ **Separates concerns** - form doesn't know HTTP details
+- ✅ **Testable** - can be mocked in tests
+
+**Without @inject:**
+- ❌ `ProductService` doesn't exist - compilation error
+- ❌ Component can't access WebAPI
+- ❌ Form is useless - no save functionality
 
 ---
 

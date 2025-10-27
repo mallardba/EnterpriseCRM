@@ -1,0 +1,111 @@
+@using EnterpriseCRM.Application.DTOs
+@using EnterpriseCRM.BlazorServer.Services
+@using Microsoft.AspNetCore.Components.Forms
+@inject IProductClientService ProductService
+
+<EditForm Model="product" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    
+    <div class="form-group mb-3">
+        <label for="name">Name *</label>
+        <InputText id="name" class="form-control" @bind-Value="product.Name" />
+        <ValidationMessage For="@(() => product.Name)" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="description">Description</label>
+        <InputTextArea id="description" class="form-control" @bind-Value="product.Description" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="sku">SKU</label>
+        <InputText id="sku" class="form-control" @bind-Value="product.SKU" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="price">Price *</label>
+        <InputNumber id="price" class="form-control" @bind-Value="product.Price" />
+        <ValidationMessage For="@(() => product.Price)" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="cost">Cost</label>
+        <InputNumber id="cost" class="form-control" @bind-Value="product.Cost" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="category">Category</label>
+        <InputText id="category" class="form-control" @bind-Value="product.Category" />
+    </div>
+
+    <div class="form-group mb-3">
+        <InputCheckbox id="isActive" @bind-Value="product.IsActive" />
+        <label for="isActive">Active</label>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">@(IsEdit ? "Update" : "Create")</button>
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public bool IsEdit { get; set; } = false;
+    [Parameter] public int? ProductId { get; set; }
+    [Parameter] public EventCallback OnSaved { get; set; }
+
+    private CreateProductDto product = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit && ProductId.HasValue)
+        {
+            // Load existing product for editing
+            var existingProduct = await ProductService.GetByIdAsync(ProductId.Value);
+            if (existingProduct != null)
+            {
+                product = new CreateProductDto
+                {
+                    Name = existingProduct.Name,
+                    Description = existingProduct.Description,
+                    SKU = existingProduct.SKU,
+                    Price = existingProduct.Price,
+                    Cost = existingProduct.Cost,
+                    Category = existingProduct.Category,
+                    IsActive = existingProduct.IsActive
+                };
+            }
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (IsEdit && ProductId.HasValue)
+        {
+            var updateDto = new UpdateProductDto
+            {
+                Id = ProductId.Value,
+                Name = product.Name,
+                Description = product.Description,
+                SKU = product.SKU,
+                Price = product.Price,
+                Cost = product.Cost,
+                Category = product.Category,
+                IsActive = product.IsActive
+            };
+            await ProductService.UpdateAsync(updateDto);
+        }
+        else
+        {
+            await ProductService.CreateAsync(product);
+        }
+
+        await OnSaved.InvokeAsync();
+        Cancel();
+    }
+
+    private void Cancel()
+    {
+        // Navigate back or close form
+    }
+}

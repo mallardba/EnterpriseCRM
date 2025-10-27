@@ -26,7 +26,12 @@ public class ProductClientService : IProductClientService
     {
         var response = await _httpClient.GetAsync(_baseUrl);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<IEnumerable<ProductDto>>() ?? Enumerable.Empty<ProductDto>();
+
+        // Deserialize as PagedResultDto, then return the Data property
+        var pagedResult = await response.Content.ReadFromJsonAsync<PagedResultDto<ProductDto>>()
+            ?? new PagedResultDto<ProductDto>();
+
+        return pagedResult.Data ?? Enumerable.Empty<ProductDto>();
     }
 
     public async Task<ProductDto?> GetByIdAsync(int id)

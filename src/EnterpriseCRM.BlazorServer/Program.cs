@@ -2,12 +2,18 @@ using EnterpriseCRM.Infrastructure.Data;
 using EnterpriseCRM.Infrastructure.UnitOfWork;
 using EnterpriseCRM.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
-
+using EnterpriseCRM.BlazorServer.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+// Add HttpClient for WebAPI calls
+builder.Services.AddHttpClient<IProductClientService, ProductClientService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5001");
+});
 
 // Add Entity Framework
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

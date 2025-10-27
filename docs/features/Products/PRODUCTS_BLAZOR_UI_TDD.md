@@ -178,7 +178,8 @@ Update `tests/EnterpriseCRM.UnitTests/EnterpriseCRM.UnitTests.csproj`:
 
 ### **Test 1: Product List Component Tests**
 
-Create `tests/EnterpriseCRM.UnitTests/Components/ProductsListTests.cs`:
+Create `tests/EnterpriseCRM.UnitTests/Components/ProductsListTests.cs`:  
+Passes after step 4.1
 
 ```csharp
 using EnterpriseCRM.Application.DTOs;

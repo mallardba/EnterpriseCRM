@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EnterpriseCRM.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250930224257_InitialCreate")]
+    [Migration("20251109002533_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -377,19 +377,13 @@ namespace EnterpriseCRM.Infrastructure.Migrations
                     b.ToTable("Opportunities");
                 });
 
-            modelBuilder.Entity("EnterpriseCRM.Core.Entities.Task", b =>
+            modelBuilder.Entity("EnterpriseCRM.Core.Entities.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AssignedToUserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CompletedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -399,42 +393,20 @@ namespace EnterpriseCRM.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<DateTime?>("DueDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LeadId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Notes")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int?>("OpportunityId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -445,19 +417,74 @@ namespace EnterpriseCRM.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssignedToUserId");
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex("CustomerId");
+                    b.ToTable("OrderItem");
+                });
 
-                    b.HasIndex("DueDate");
+            modelBuilder.Entity("EnterpriseCRM.Core.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.HasIndex("LeadId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.HasIndex("OpportunityId");
+                    b.Property<string>("Category")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.HasIndex("Status");
+                    b.Property<decimal?>("Cost")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.ToTable("Tasks");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SKU")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Category");
+
+                    b.HasIndex("IsActive");
+
+                    b.HasIndex("SKU")
+                        .IsUnique()
+                        .HasFilter("[SKU] IS NOT NULL");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("EnterpriseCRM.Core.Entities.User", b =>
@@ -546,6 +573,89 @@ namespace EnterpriseCRM.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EnterpriseCRM.Core.Entities.WorkItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AssignedToUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CompletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LeadId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int?>("OpportunityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignedToUserId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("DueDate");
+
+                    b.HasIndex("LeadId");
+
+                    b.HasIndex("OpportunityId");
+
+                    b.HasIndex("Status");
+
+                    b.ToTable("WorkItems");
+                });
+
             modelBuilder.Entity("EnterpriseCRM.Core.Entities.Contact", b =>
                 {
                     b.HasOne("EnterpriseCRM.Core.Entities.Customer", "Customer")
@@ -591,7 +701,18 @@ namespace EnterpriseCRM.Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("EnterpriseCRM.Core.Entities.Task", b =>
+            modelBuilder.Entity("EnterpriseCRM.Core.Entities.OrderItem", b =>
+                {
+                    b.HasOne("EnterpriseCRM.Core.Entities.Product", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("EnterpriseCRM.Core.Entities.WorkItem", b =>
                 {
                     b.HasOne("EnterpriseCRM.Core.Entities.User", "AssignedToUser")
                         .WithMany("AssignedTasks")
@@ -600,17 +721,17 @@ namespace EnterpriseCRM.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("EnterpriseCRM.Core.Entities.Customer", "Customer")
-                        .WithMany("Tasks")
+                        .WithMany("WorkItems")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("EnterpriseCRM.Core.Entities.Lead", "Lead")
-                        .WithMany("Tasks")
+                        .WithMany("WorkItems")
                         .HasForeignKey("LeadId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("EnterpriseCRM.Core.Entities.Opportunity", "Opportunity")
-                        .WithMany("Tasks")
+                        .WithMany("WorkItems")
                         .HasForeignKey("OpportunityId")
                         .OnDelete(DeleteBehavior.SetNull);
 
@@ -631,17 +752,22 @@ namespace EnterpriseCRM.Infrastructure.Migrations
 
                     b.Navigation("Opportunities");
 
-                    b.Navigation("Tasks");
+                    b.Navigation("WorkItems");
                 });
 
             modelBuilder.Entity("EnterpriseCRM.Core.Entities.Lead", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("WorkItems");
                 });
 
             modelBuilder.Entity("EnterpriseCRM.Core.Entities.Opportunity", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("WorkItems");
+                });
+
+            modelBuilder.Entity("EnterpriseCRM.Core.Entities.Product", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("EnterpriseCRM.Core.Entities.User", b =>

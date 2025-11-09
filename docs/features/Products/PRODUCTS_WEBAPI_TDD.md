@@ -24,11 +24,10 @@ We'll implement a complete Product management system following the **Red-Green-R
 7. [Step 5: Refactor Phase - Improve Code](#-step-5-refactor-phase---improve-code)
 8. [Step 6: Documentation and Interview Talking Points](#-step-6-documentation-and-interview-talking-points)
 9. [Step 7: Complete Test Suite](#-step-7-complete-test-suite)
-10. [Step 8: Create Database Migration](#-step-8-create-database-migration)
-11. [Step 9: Verify in Swagger](#-step-9-verify-in-swagger)
-12. [TDD Interview Flow Summary](#-summary-tdd-interview-flow)
-13. [Architecture Overview](#-architecture-overview-how-everything-connects)
-14. [Clean Architecture Layers Summary](#️-clean-architecture-layers-summary)
+10. [Step 8: Verify in Swagger](#-step-8-verify-in-swagger)
+11. [TDD Interview Flow Summary](#-summary-tdd-interview-flow)
+12. [Architecture Overview](#-architecture-overview-how-everything-connects)
+13. [Clean Architecture Layers Summary](#️-clean-architecture-layers-summary)
 
 ---
 
@@ -1098,6 +1097,46 @@ modelBuilder.Entity<Product>(entity =>
 });
 ```
 
+**⚠️ Important**: After configuring the Product entity in DbContext, you need to create a database migration to apply these schema changes to your database:
+
+```bash
+dotnet ef migrations add AddProductEntity --project src/EnterpriseCRM.Infrastructure --startup-project src/EnterpriseCRM.WebAPI
+dotnet ef database update --project src/EnterpriseCRM.Infrastructure --startup-project src/EnterpriseCRM.WebAPI
+```
+
+**Why is a migration necessary?** Adding `DbSet<Product>` and configuring the entity in `OnModelCreating` changes the database schema. Entity Framework Core compares your current model configuration with the existing database schema and generates SQL statements to synchronize them.
+
+**How the migration changes the database schema:**
+
+1. **If the Products table doesn't exist** (new database or first time adding Product):
+   - Creates a new `Products` table with the following structure:
+     - `Id` (INT, Primary Key, Identity)
+     - `Name` (NVARCHAR(200), NOT NULL)
+     - `Description` (NVARCHAR(1000), NULL)
+     - `SKU` (NVARCHAR(100), NULL, Unique Index)
+     - `Price` (DECIMAL(18,2), NOT NULL)
+     - `Cost` (DECIMAL(18,2), NULL)
+     - `Category` (NVARCHAR(100), NULL, Index)
+     - `IsActive` (BIT, Index)
+     - `CreatedBy` (NVARCHAR(100), NOT NULL)
+     - `CreatedAt` (DATETIME2)
+     - `UpdatedBy` (NVARCHAR(100), NULL)
+     - `UpdatedAt` (DATETIME2)
+     - `IsDeleted` (BIT, for soft delete)
+   - Creates indexes on `SKU` (unique), `Category`, and `IsActive`
+
+2. **If the Products table already exists** (updating existing schema):
+   - Compares the current model configuration with the existing table structure
+   - Generates ALTER TABLE statements to:
+     - Add any new columns that don't exist
+     - Modify column types/sizes if they differ (e.g., changing `Price` from `DECIMAL(10,2)` to `DECIMAL(18,2)`)
+     - Add new indexes that are missing
+     - Remove indexes that are no longer in the model (if any)
+     - Update constraints (NOT NULL, MaxLength, etc.)
+   - **Note**: EF Core migrations are additive by default - they won't drop columns or data unless explicitly configured
+
+**When to run the migration:** This should be done immediately after Step 3.11, not after implementing services. Implementing `ProductService` or `ProductsController` doesn't change the database schema - only adding the entity to DbContext does.
+
 ---
 
 ## ✅ Step 4: Run Tests to Verify
@@ -1260,16 +1299,7 @@ _productRepositoryMock.Verify(repo => repo.GetByIdAsync(productId), Times.Once);
 
 ---
 
-## 🚀 Step 8: Create Database Migration
-
-```bash
-dotnet ef migrations add AddProductEntity --project src/EnterpriseCRM.Infrastructure --startup-project src/EnterpriseCRM.WebAPI
-dotnet ef database update --project src/EnterpriseCRM.Infrastructure --startup-project src/EnterpriseCRM.WebAPI
-```
-
----
-
-## ✅ Step 9: Verify in Swagger
+## ✅ Step 8: Verify in Swagger
 
 1. Run the WebAPI
 2. Navigate to `https://localhost:5001/swagger`
